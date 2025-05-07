@@ -14,6 +14,7 @@ export function App() {
   ])  
 
   const [filter,setFilter] = useState<FilterValues>('all')
+ 
   //Фильтрация таски
   const filteredTasks = filter === 'active'
   ?tasks.filter(task=>!task.isDone)
@@ -34,11 +35,16 @@ export function App() {
   }
   //Добавление таски
 
-  const createTask = () => {
-   const newTask = { id: v1(), title: 'HTML&CSS', isDone: true }
+
+
+  const createTask = (title: string) => {
+   const newTask = { id: v1(), title: title, isDone: false }
    const newTasks = [newTask, ...tasks]
    setTasks(newTasks)
+    
   }
+
+  
  
   return(
   <>

@@ -1,3 +1,5 @@
+import {  useState } from "react"
+import { KeyboardEvent } from 'react'; 
 import { FilterValues } from "../App"
 import { Button } from "./Button"
 
@@ -13,17 +15,43 @@ type TodoListPropsType ={
     title: string
     deleteTasks: (taskId:string) => void
     changeFilter: (filter:FilterValues) => void
-    createTask: () => void
+    createTask: (title:string) => void
 }
 
 
 export const TodolistItem = ({tasks, title,deleteTasks,changeFilter, createTask}: TodoListPropsType) => {
-    return (
+ const [taskTitle, setTaskTitle] = useState('')  
+
+
+
+ const createTaskHandler = () => {
+  createTask(taskTitle)
+  setTaskTitle('')
+ }
+ 
+ const onChangeInputHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
+  setTaskTitle(event.currentTarget.value)
+ }
+
+ const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) =>{
+   if (event.key === 'Enter') {
+    createTaskHandler()
+  }
+}
+
+  return (
         <div>
           <h3>{title}</h3>
           <div>
-            <input/>
-            <Button title={"+"} handleOnClick={createTask}/>
+            <input 
+            value={taskTitle} 
+            onChange={onChangeInputHandler}  
+             onKeyDown={createTaskOnEnterHandler}/>
+
+
+            <Button 
+            title={"+"} 
+            handleOnClick={createTaskHandler}/>
           </div>
           {tasks.length === 0 ?(
             <p>No Tasks</p>
